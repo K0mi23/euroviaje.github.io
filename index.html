@@ -362,6 +362,7 @@
         <button class="destination-tab" onclick="showDestInfo('helsinki')">Helsinki</button>
         <button class="destination-tab" onclick="showDestInfo('basel')">Basel</button>
         <button class="destination-tab" onclick="showDestInfo('paris')">Paris</button>
+	<button class="destination-tab" onclick="showDestInfo('rome')">Rome</button>
     </div>
 
     <div id="madrid-info" class="destination-content active">
@@ -493,7 +494,42 @@
             <span class="recommendation-tag">Architecture</span>
             Notre-Dame Cathedral - Gothic masterpiece
         </div>
+</div>
+<div id="rome-info" class="destination-content">
+    <div class="section-title">Latest News</div>
+    <div class="news-item">
+        <span class="news-date">Nov 28, 2024</span>
+        Vatican Museums announce extended holiday hours
     </div>
+    <div class="news-item">
+        <span class="news-date">Nov 27, 2024</span>
+        Rome's Christmas Market opens in Piazza Navona
+    </div>
+    
+    <div class="section-title">Must Visit</div>
+    <div class="recommendation-item">
+        <span class="recommendation-tag">History</span>
+        <span class="recommendation-tag">Architecture</span>
+        Colosseum - Ancient Roman amphitheater
+    </div>
+    <div class="recommendation-item">
+        <span class="recommendation-tag">Religion</span>
+        <span class="recommendation-tag">Art</span>
+        Vatican Museums & Sistine Chapel
+    </div>
+    <div class="recommendation-item">
+        <span class="recommendation-tag">History</span>
+        Roman Forum - Ancient city center
+    </div>
+    <div class="recommendation-item">
+        <span class="recommendation-tag">Culture</span>
+        <span class="recommendation-tag">Food</span>
+        Trastevere - Historic neighborhood
+    </div>
+</div>
+    </div>
+
+
 </div>
 
 <script>
@@ -542,6 +578,10 @@ function showDestInfo(destination) {
             <span class="city">Paris:</span>
             <span class="time" id="time-paris"></span>
         </li>
+	<li class="time-item">
+    	<span class="city">Rome:</span>
+   	<span class="time" id="time-rome"></span>
+	</li>    
     </ul>
 </div>
 
@@ -577,6 +617,8 @@ function updateTimes() {
     // Paris (UTC+1)
     const parisTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
     document.getElementById('time-paris').textContent = timeFormatter.format(parisTime);
+const romeTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Rome' }));
+document.getElementById('time-rome').textContent = timeFormatter.format(romeTime);
 }
 
 // Update times immediately and then every second
@@ -623,6 +665,12 @@ setInterval(updateTimes, 1000);
                 December 8: Strasbourg - Paris
             </a>
         </div>
+<div class="menu-item-container">
+    <iframe class="map-preview" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBMJpBlQLdRY0XhvHftWxR4kSPpxmHjkk0&q=Rome,Italy" frameborder="0"></iframe>
+    <a href="#" class="menu-item" onclick="showItinerary('dec11')">
+        December 11: Paris - Rome
+    </a>
+</div>
     </div>
 
     <!-- Modal Overlay -->
@@ -675,7 +723,28 @@ setInterval(updateTimes, 1000);
     </template>
 
 
-
+<template id="dec11-template">
+    <h2 class="destination-header">December 11: Paris - Rome</h2>
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Transport</th>
+        </tr>
+        <tr>
+            <td>10:30 AM</td>
+            <td>Paris</td>
+            <td>Rome</td>
+            <td>Flight</td>
+        </tr>
+    </table>
+    <div class="passengers">
+        <button class="passenger-btn" onclick="showPdf('1Pax0fOmxZZSRMsuTsLMYuXs7ItvlZE5G')">Nancy's Ticket</button>
+        <button class="passenger-btn" onclick="showPdf('1A5xBf_ohOx9S5Cl0qhUK1y_G3XAcJ2Iz')">Daniel's Ticket</button>
+        <button class="passenger-btn" onclick="showPdf('1Z2jshWHBDVaWuEW1YF_-u16IMKsayach')">Emilio's Ticket</button>
+    </div>
+</template>
 <template id="dec3-template">
     <h2 class="destination-header">December 3: Madrid - Rovaniemi</h2>
     <table>
@@ -779,6 +848,29 @@ setInterval(updateTimes, 1000);
         <button class="passenger-btn" onclick="showPdf('1asM2fsik-ZRSBzR4VQdUx2vRLCaEFqQc')">Nancy's Ticket</button>
         <button class="passenger-btn" onclick="showPdf('1-LVhCNlEYuEX2GyyFJmrgPGJ9TcPum_M')">Daniel's Ticket</button>
         <button class="passenger-btn" onclick="showPdf('1gQKDau9nIzArMxhTl0h27vlvwL6C4oXK')">Emilio's Ticket</button>
+    </div>
+</template>
+
+<template id="dec8-template">
+    <h2 class="destination-header">December 8: Strasbourg - Paris</h2>
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Transport</th>
+        </tr>
+        <tr>
+            <td>8:23 AM</td>
+            <td>Strasbourg</td>
+            <td>Paris</td>
+            <td>High-Speed Train</td>
+        </tr>
+    </table>
+    <div class="passengers">
+        <button class="passenger-btn" onclick="showPdf('1xwdvilDJa4CTw-XNaxoLOIdT2xEFM4ct')">Nancy's Ticket</button>
+        <button class="passenger-btn" onclick="showPdf('1zqUMIibsC0_Zx7PQ2RnoCLk7eKvcCCe5')">Daniel's Ticket</button>
+        <button class="passenger-btn" onclick="showPdf('1kUBj755TMZMBiL84g4XQp4ak3IxdL6lh')">Emilio's Ticket</button>
     </div>
 </template>
 <style>
