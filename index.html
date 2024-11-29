@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Itinerary December 2024</title>
     <style>
+
+
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -353,6 +355,90 @@
         max-height: none;
     }
 }
+.ticket-actions {
+    display: flex;
+    gap: 10px;
+    width: 80%;
+    max-width: 300px;
+    margin-bottom: 10px;
+}
+
+.ticket-btn {
+   padding: 18px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 22px;
+    flex: 1;
+    transition: all 0.2s ease;
+}
+
+.pdf-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.qr-btn {
+    padding: 18px 50px;
+    background-color: #2ecc71;
+    color: white;
+}
+
+.ticket-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.qr-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    padding: 20px;
+}
+
+.qr-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.qr-image {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+}
+
+.close-qr {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.close-qr:hover {
+    background-color: #f0f0f0;
+}
+
 </style>
 
 <div class="info-widget">
@@ -671,6 +757,21 @@ setInterval(updateTimes, 1000);
         December 11: Paris - Rome
     </a>
 </div>
+
+<div class="menu-item-container">
+    <iframe class="map-preview" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBMJpBlQLdRY0XhvHftWxR4kSPpxmHjkk0&q=Madrid,Spain" frameborder="0"></iframe>
+    <a href="#" class="menu-item" onclick="showItinerary('dec13')">
+        December 13: Rome - Madrid
+    </a>
+</div>
+
+<div class="menu-item-container">
+    <iframe class="map-preview" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBMJpBlQLdRY0XhvHftWxR4kSPpxmHjkk0&q=Guatemala+City,Guatemala" frameborder="0"></iframe>
+    <a href="#" class="menu-item" onclick="showItinerary('dec16')">
+        December 16: Madrid - Guatemala
+    </a>
+</div>
+
     </div>
 
     <!-- Modal Overlay -->
@@ -682,7 +783,13 @@ setInterval(updateTimes, 1000);
             </div>
         </div>
     </div>
-
+	<div id="qrModal" class="qr-modal">
+    <div class="qr-container">
+        <button class="close-qr" onclick="closeQrViewer()">&times;</button>
+        <h3>Boarding Pass QR Code</h3>
+        <img id="qrImage" class="qr-image" src="" alt="Boarding Pass QR Code">
+    </div>
+</div>
     <!-- PDF Modal -->
     <div id="pdfModal" class="pdf-modal">
         <div id="loading" class="loading">Loading PDF...</div>
@@ -693,56 +800,30 @@ setInterval(updateTimes, 1000);
     </div>
 
     <!-- Templates -->
-    <template id="dec1-template">
-        <h2 class="destination-header">December 1: Guatemala - Madrid</h2>
-        <table>
-            <tr>
-                <th>Time</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Transport</th>
-            </tr>
-            <tr>
-                <td>6:45 AM</td>
-                <td>Guatemala</td>
-                <td>Miami</td>
-                <td>Flight</td>
-            </tr>
-            <tr>
-                <td>3:35 PM</td>
-                <td>Miami</td>
-                <td>Madrid</td>
-                <td>Flight</td>
-            </tr>
-        </table>
-        <div class="passengers">
-            <button class="passenger-btn" onclick="showPdf('1Q8YGpie-9vOYVKgOzl9aONCaZTd1tzXB')">Nancy's Ticket</button>
-            <button class="passenger-btn" onclick="showPdf('1dCGVtU7EXFAMlD0eAWCRkWVs8RD7UnRv')">Daniel's Ticket</button>
-            <button class="passenger-btn" onclick="showPdf('1V_kDOlynZZbL9v8MXqfXWD4OIERpx9Hc')">Emilio's Ticket</button>
-        </div>
-    </template>
+   
 
-
-<template id="dec11-template">
-    <h2 class="destination-header">December 11: Paris - Rome</h2>
-    <table>
-        <tr>
-            <th>Time</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Transport</th>
-        </tr>
-        <tr>
-            <td>10:30 AM</td>
-            <td>Paris</td>
-            <td>Rome</td>
-            <td>Flight</td>
-        </tr>
-    </table>
+<template id="dec1-template">
+    <h2 class="destination-header">December 1: Guatemala - Madrid</h2>
+    <!-- Table remains the same -->
     <div class="passengers">
-        <button class="passenger-btn" onclick="showPdf('1Pax0fOmxZZSRMsuTsLMYuXs7ItvlZE5G')">Nancy's Ticket</button>
-        <button class="passenger-btn" onclick="showPdf('1A5xBf_ohOx9S5Cl0qhUK1y_G3XAcJ2Iz')">Daniel's Ticket</button>
-        <button class="passenger-btn" onclick="showPdf('1Z2jshWHBDVaWuEW1YF_-u16IMKsayach')">Emilio's Ticket</button>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1Q8YGpie-9vOYVKgOzl9aONCaZTd1tzXB')">Nancy's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('nancy-dec1-qr.png')">Bar code</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1dCGVtU7EXFAMlD0eAWCRkWVs8RD7UnRv')">Daniel's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('daniel-dec1-qr.png')">Bar code</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1V_kDOlynZZbL9v8MXqfXWD4OIERpx9Hc')">Emilio's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('emilio-dec1-qr.png')">Bar code</button>
+            </div>
+        </div>
     </div>
 </template>
 <template id="dec3-template">
@@ -773,6 +854,7 @@ setInterval(updateTimes, 1000);
     </div>
 </template>
 
+
 <!-- Add new tickets modal -->
 <div id="ticketsModal" class="modal-overlay">
     <div class="modal">
@@ -795,9 +877,27 @@ setInterval(updateTimes, 1000);
 <template id="train-tickets-template">
     <h3 class="ticket-type-header">Helsinki - Rovaniemi Train Tickets</h3>
     <div class="passengers">
-        <button class="passenger-btn" onclick="showPdf('1aFq8k4ZmyPBE3azFsMaZmBo_hIbtWcEc')">Nancy's Train Ticket</button>
-        <button class="passenger-btn" onclick="showPdf('1GZ-ZSwdjz303UIOcw1LIuLuxy14T_-YK')">Daniel's Train Ticket</button>
-        <button class="passenger-btn" onclick="showPdf('1Ek2aarYK_Qc79acqmktZcbfQnPzUbWLp')">Emilio's Train Ticket</button>
+        <div class="passenger-group">
+       
+                  <div class="ticket-actions">
+                  <button class="passenger-btn" onclick="showPdf('1aFq8k4ZmyPBE3azFsMaZmBo_hIbtWcEc')">Nancy's Train Ticket</button>
+                 <button class="ticket-btn qr-btn" onclick="showQR('nancy-dec3-qr.png')">Show QR</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+           
+                <div class="ticket-actions">
+                  <button class="passenger-btn" onclick="showPdf('1GZ-ZSwdjz303UIOcw1LIuLuxy14T_-YK')">Daniel's Train Ticket</button>
+               <button class="ticket-btn qr-btn" onclick="showQR('daniel-dec3-qr.png')">Show QR</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+           
+                  <div class="ticket-actions">
+                <button class="passenger-btn" onclick="showPdf('1Ek2aarYK_Qc79acqmktZcbfQnPzUbWLp')">Emilio's Train Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('emilio-dec3-qr.png')">Show QR</button>
+            </div>
+        </div>
     </div>
 </template>
 <template id="dec5-template">
@@ -828,6 +928,8 @@ setInterval(updateTimes, 1000);
         <button class="passenger-btn pending" disabled>Emilio's Ticket (Pending)</button>
     </div>
 </template>
+
+
 <template id="dec6-template">
     <h2 class="destination-header">December 6: Basel - Strasbourg</h2>
     <table>
@@ -845,11 +947,27 @@ setInterval(updateTimes, 1000);
         </tr>
     </table>
     <div class="passengers">
-        <button class="passenger-btn" onclick="showPdf('1asM2fsik-ZRSBzR4VQdUx2vRLCaEFqQc')">Nancy's Ticket</button>
-        <button class="passenger-btn" onclick="showPdf('1-LVhCNlEYuEX2GyyFJmrgPGJ9TcPum_M')">Daniel's Ticket</button>
-        <button class="passenger-btn" onclick="showPdf('1gQKDau9nIzArMxhTl0h27vlvwL6C4oXK')">Emilio's Ticket</button>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1asM2fsik-ZRSBzR4VQdUx2vRLCaEFqQc')">Nancy's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('nancy-dec6-qr.png')">Show QR</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1-LVhCNlEYuEX2GyyFJmrgPGJ9TcPum_M')">Daniel's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('daniel-dec6-qr.png')">Show QR</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1gQKDau9nIzArMxhTl0h27vlvwL6C4oXK')">Emilio's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('emilio-dec6-qr.png')">Show QR</button>
+            </div>
+        </div>
     </div>
 </template>
+
 
 <template id="dec8-template">
     <h2 class="destination-header">December 8: Strasbourg - Paris</h2>
@@ -868,11 +986,147 @@ setInterval(updateTimes, 1000);
         </tr>
     </table>
     <div class="passengers">
-        <button class="passenger-btn" onclick="showPdf('1xwdvilDJa4CTw-XNaxoLOIdT2xEFM4ct')">Nancy's Ticket</button>
-        <button class="passenger-btn" onclick="showPdf('1zqUMIibsC0_Zx7PQ2RnoCLk7eKvcCCe5')">Daniel's Ticket</button>
-        <button class="passenger-btn" onclick="showPdf('1kUBj755TMZMBiL84g4XQp4ak3IxdL6lh')">Emilio's Ticket</button>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1xwdvilDJa4CTw-XNaxoLOIdT2xEFM4ct')">Nancy's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('nancy-dec8-qr.png')">Show QR</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1zqUMIibsC0_Zx7PQ2RnoCLk7eKvcCCe5')">Daniel's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('daniel-dec8-qr.png')">Show QR</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1kUBj755TMZMBiL84g4XQp4ak3IxdL6lh')">Emilio's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('emilio-dec8-qr.png')">Show QR</button>
+            </div>
+        </div>
     </div>
 </template>
+
+<template id="dec11-template">
+    <h2 class="destination-header">December 11: Paris - Rome</h2>
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Transport</th>
+        </tr>
+        <tr>
+            <td>10:30 AM</td>
+            <td>Paris</td>
+            <td>Rome</td>
+            <td>Flight</td>
+        </tr>
+    </table>
+    <div class="passengers">
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1Pax0fOmxZZSRMsuTsLMYuXs7ItvlZE5G')">Nancy's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('nancy-dec11-qr.png')">Bar code</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1A5xBf_ohOx9S5Cl0qhUK1y_G3XAcJ2Iz')">Daniel's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('daniel-dec11-qr.png')">Bar code</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1Z2jshWHBDVaWuEW1YF_-u16IMKsayach')">Emilio's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('emilio-dec11-qr.png')">Bar code</button>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="dec13-template">
+    <h2 class="destination-header">December 13: Rome - Madrid</h2>
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Transport</th>
+        </tr>
+        <tr>
+            <td>14:45 PM</td>
+            <td>Rome</td>
+            <td>Madrid</td>
+            <td>Flight</td>
+        </tr>
+    </table>
+    <div class="passengers">
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1ppElz2FgGMe4zYc87dvF2TVwl11IjxAO')">Nancy's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('nancy-dec13-qr.png')">Show QR</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1i-1gLd0yp2VyRPsRqr7HJvOSt1ZK8C-N')">Daniel's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('daniel-dec13-qr.png')">Show QR</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1GM5cJjiBNHnsQPJwWpQWkFh6a04JRXZ8')">Emilio's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('emilio-dec13-qr.png')">Show QR</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="dec16-template">
+    <h2 class="destination-header">December 16: Madrid - Guatemala</h2>
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Transport</th>
+        </tr>
+        <tr>
+            <td>10:00 AM</td>
+            <td>Madrid</td>
+            <td>Miami</td>
+            <td>Flight</td>
+        </tr>
+        <tr>
+            <td>17:45 PM</td>
+            <td>Miami</td>
+            <td>Guatemala</td>
+            <td>Flight</td>
+        </tr>
+    </table>
+    <div class="passengers">
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1Q8YGpie-9vOYVKgOzl9aONCaZTd1tzXB')">Nancy's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('nancy-dec16-qr.png')">Show QR</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1dCGVtU7EXFAMlD0eAWCRkWVs8RD7UnRv')">Daniel's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('daniel-dec16-qr.png')">Show QR</button>
+            </div>
+        </div>
+        <div class="passenger-group">
+            <div class="ticket-actions">
+                <button class="ticket-btn pdf-btn" onclick="showPdf('1V_kDOlynZZbL9v8MXqfXWD4OIERpx9Hc')">Emilio's Ticket</button>
+                <button class="ticket-btn qr-btn" onclick="showQR('emilio-dec16-qr.png')">Show QR</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+v
 <style>
 /* Add to existing styles */
 .passenger-btn.pending {
@@ -1004,5 +1258,28 @@ setInterval(updateTimes, 1000);
             }
         });
     </script>
+
+<script>
+function showQR(imageName) {
+    const qrModal = document.getElementById('qrModal');
+    const qrImage = document.getElementById('qrImage');
+    qrImage.src = imageName; // Image should be in the same folder as index.html
+    qrModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeQrViewer() {
+    const qrModal = document.getElementById('qrModal');
+    qrModal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Close QR viewer when clicking outside
+document.getElementById('qrModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeQrViewer();
+    }
+});
+</script>
 </body>
 </html>
